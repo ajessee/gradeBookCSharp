@@ -14,6 +14,8 @@ namespace GradeBook
             Console.WriteLine($"Please enter a grade between 1-100 to add to the gradebook. Enter Q to quit.");
             bool keepGrading = true;
             var book = new Book("The Grades");
+            book.GradeAdded += OnGradeAdded;
+
             while (keepGrading) {
                 var input = Console.ReadLine();
                 double number;
@@ -21,7 +23,6 @@ namespace GradeBook
                 {
                     try {
                         book.AddGrade(number);
-                        Console.WriteLine($"Succesfully added {number} to gradebook."); 
                     }
                     catch (ArgumentOutOfRangeException e)
                     {
@@ -52,6 +53,11 @@ namespace GradeBook
             Console.WriteLine($"The high grade is {results.High}");
             Console.WriteLine($"The low grade is {results.Low}");
             Console.WriteLine($"The average grade is {results.Average}, which is a {results.Letter}");
+        }
+
+        static void OnGradeAdded(object sender, EventArgs e) 
+        {
+            Console.WriteLine($"Grade succesfully added to gradebook."); 
         }
     }
 }

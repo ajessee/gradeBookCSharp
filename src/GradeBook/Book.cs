@@ -3,10 +3,16 @@ using System.Collections.Generic;
 
 namespace GradeBook
 {
+    public delegate void GradeAddedDelegate(object sender, EventArgs args);
+
     public class Book
     {
         private List<double> grades;
-        public string Name;
+        public string Name
+        {
+            get;
+            set;
+        }
 
         public Book(string name, string[] args = null)
         {
@@ -26,12 +32,18 @@ namespace GradeBook
             if (grade >= 0 && grade <= 100)
             {
                 grades.Add(grade);
+                if(GradeAdded != null)
+                {
+                    GradeAdded(this, new EventArgs());
+                }
             }
             else
             {
                 throw new ArgumentOutOfRangeException("grade", "Grades must be between 0 - 100");
             }
         }
+
+        public event GradeAddedDelegate GradeAdded;
 
         public char GetLetterGrade(double grade)
         {
